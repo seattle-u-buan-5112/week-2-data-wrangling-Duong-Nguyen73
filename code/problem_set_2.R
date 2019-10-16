@@ -48,7 +48,12 @@ male_bio <- select(nfhs, hhid, matches("hb\\d_\\d+"))
 # Q6 # 
 # ind.line.no.-hv003,hvidx   edu.sin.yr.-hv108,v133
 hh_gat <- hh_edu %>% gather(key = "all_variables", value = "years", -hhid)
-hh_sep <- hh_gat %>% separate('all_variables', into = c('column_name', 'number_of_person'), sep = "_")
+hh_sep <-
+  hh_gat %>% separate(
+    'all_variables',
+    into = c('column_name', 'number_of_person'),
+    sep = "_"
+  )
 hh_spr <- hh_sep %>% spread(key = column_name, value = years)
 hh_fdf <- hh_spr %>% filter(!is.na(hv108)) %>% # WRONG! Why hvidx instead of hv108?
   rename('Family_Members' = number_of_person, 'Years_of_ducation' = hv108)  # WRONG! Why hvidx?
